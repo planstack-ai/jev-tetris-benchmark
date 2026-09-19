@@ -56,6 +56,163 @@ type ModelConfig = {
   model: string;
 };
 
+type Language = "en" | "ja";
+
+const COPY = {
+  en: {
+    languageLabel: "Language",
+    specializedLegend: "specialized",
+    languageLegend: "language model",
+    liveModels: "LIVE MODEL APIs",
+    liveJev: "LIVE JEV API",
+    liveHaiku: "LIVE HAIKU API",
+    addApiKey: "ADD YOUR API KEY",
+    eyebrow: "SAME BOARD. SAME BLOCKS. DIFFERENT DECISIONS.",
+    raceStatus: "RACE STATUS",
+    configureApi: "Configure an API key to begin",
+    jevOnlyMode: "Jev-only mode",
+    haikuOnlyMode: "Haiku-only mode",
+    jevApiStopped: "Stopped by a Jev API error",
+    haikuApiStopped: "Stopped by a Haiku API error",
+    jevWon: "Jev reached 20 lines first",
+    haikuWon: "Haiku reached 20 lines first",
+    racing: "Racing under identical conditions",
+    summaryBoth: "Candidate generation and board updates are identical. Only the selected placement differs.",
+    summaryJev: "Only Jev is running. Add an Anthropic API key to compare both models.",
+    summaryHaiku: "Only Haiku is running. Add a Vercel AI Gateway or TypeSafe API key to compare both models.",
+    summaryNone: "Follow the README to add your own API keys and run the experiment with live models.",
+    controlsLabel: "Demo controls",
+    pause: "Pause",
+    resume: "Resume",
+    start: "Start race",
+    reset: "Reset",
+    playbackSpeed: "Playback speed",
+    checkingConfig: "Checking API configuration…",
+    configBoth: "Each move calls the live Jev and Claude Haiku 4.5 APIs. Usage charges apply.",
+    configJev: "The live Jev API will run alone. Add ANTHROPIC_API_KEY for a comparison.",
+    configHaiku: "The live Haiku API will run alone. Add a Jev API key for a comparison.",
+    configNone: "No API key is configured. Create .env.local and restart the server.",
+    specializedModel: "SPECIALIZED MODEL",
+    languageModel: "LANGUAGE MODEL",
+    apiKeyMissing: "API key missing",
+    askingApi: "asking API",
+    statusReady: "ready",
+    statusRunning: "running",
+    statusPaused: "paused",
+    statusFinished: "20 lines",
+    statusFailed: "game over",
+    statusApiError: "API error",
+    linesCleared: "Lines cleared",
+    elapsed: "Elapsed",
+    medianDecision: "Median decision time",
+    measuredCost: "Measured API cost",
+    previousCandidates: "Previous candidates",
+    choices: "choices",
+    nextPiece: "Next piece",
+    board: "Tetris board",
+    candidatePlaceholder: "Start the game to display up to 12 placement candidates here.",
+    payloadTitle: "Candidate array sent to the APIs",
+    payloadIntro: "The game enumerates legal moves and keeps at most 12 post-placement boards after line clears. ",
+    payloadBoth: "Both models compare the board strings and return a candidate ID. Jev evaluates all candidates in one Choice question.",
+    payloadJev: "Jev evaluates every candidate in one Choice question and returns a candidate ID.",
+    payloadHaiku: "Haiku compares the board strings and returns a candidate ID.",
+    pipelineBoard: "board",
+    pipelineMoves: "legal moves",
+    pipelineCandidates: "top 12",
+    footerBoth: "Haiku uses live Anthropic responses and Jev uses live TypeSafe AI responses. Each selected placement is applied from the same legal candidates.",
+    footerJev: "Jev is running with live responses. Haiku is disabled because no Anthropic API key is configured.",
+    footerHaiku: "Haiku is running with live Anthropic responses. Jev is disabled because no Gateway or TypeSafe API key is configured.",
+    footerNone: "Configure API keys to apply placements selected by live models.",
+    jevRequestFailed: "The Jev API request failed.",
+    gatewayConnectFailed: "Could not connect to Vercel AI Gateway.",
+    jevInvalidResponse: "The Jev API returned an invalid response.",
+    haikuRequestFailed: "The Haiku API request failed.",
+    haikuInvalidResponse: "The Haiku API returned an invalid response.",
+    jevInvalidChoice: "Jev returned a choice outside the candidate list.",
+    haikuInvalidChoice: "Haiku returned a choice outside the candidate list.",
+  },
+  ja: {
+    languageLabel: "言語",
+    specializedLegend: "特化型モデル",
+    languageLegend: "言語モデル",
+    liveModels: "実モデルAPI",
+    liveJev: "Jev実API",
+    liveHaiku: "Haiku実API",
+    addApiKey: "APIキーを設定",
+    eyebrow: "同じ盤面。同じブロック。異なる判断。",
+    raceStatus: "レース状況",
+    configureApi: "APIキーを設定してください",
+    jevOnlyMode: "Jev単独モード",
+    haikuOnlyMode: "Haiku単独モード",
+    jevApiStopped: "Jev APIエラーで停止",
+    haikuApiStopped: "Haiku APIエラーで停止",
+    jevWon: "Jevが先に20ラインへ到達",
+    haikuWon: "Haikuが先に20ラインへ到達",
+    racing: "同一条件でレース中",
+    summaryBoth: "候補生成と盤面更新は同一。違うのは、どの候補を選ぶかだけです。",
+    summaryJev: "現在はJevのみ実行します。Anthropic APIキー設定後は同じ条件で比較できます。",
+    summaryHaiku: "現在はHaikuのみ実行します。Vercel AI GatewayまたはTypeSafeのAPIキー設定後は同じ条件で比較できます。",
+    summaryNone: "READMEの手順で自分のAPIキーを設定すると、実モデルによる検証を開始できます。",
+    controlsLabel: "デモ操作",
+    pause: "一時停止",
+    resume: "再開",
+    start: "レースを開始",
+    reset: "リセット",
+    playbackSpeed: "再生速度",
+    checkingConfig: "API設定を確認中です…",
+    configBoth: "開始すると毎手JevとClaude Haiku 4.5の実APIを呼び出します。API料金が発生します。",
+    configJev: "Jevの実APIを単独で呼び出します。比較にはANTHROPIC_API_KEYも設定してください。",
+    configHaiku: "Haikuの実APIを単独で呼び出します。比較にはJev用APIキーも設定してください。",
+    configNone: "APIキーが未設定です。.env.localを作成してサーバーを再起動してください。",
+    specializedModel: "特化型モデル",
+    languageModel: "言語モデル",
+    apiKeyMissing: "APIキーなし",
+    askingApi: "APIへ問い合わせ中",
+    statusReady: "準備完了",
+    statusRunning: "実行中",
+    statusPaused: "一時停止",
+    statusFinished: "20ライン",
+    statusFailed: "ゲームオーバー",
+    statusApiError: "APIエラー",
+    linesCleared: "消去ライン",
+    elapsed: "経過",
+    medianDecision: "1手の決定時間 中央値",
+    measuredCost: "API費用 実測",
+    previousCandidates: "直前の候補",
+    choices: "候補",
+    nextPiece: "次のブロック",
+    board: "テトリス盤面",
+    candidatePlaceholder: "ゲームを開始すると、ここに最大12候補が表示されます。",
+    payloadTitle: "APIへ渡す候補配列",
+    payloadIntro: "ゲーム側が合法手を列挙し、配置・ライン消去後の盤面を最大12個に絞ります。",
+    payloadBoth: "両モデルは盤面文字列を比較し、候補IDを返します。Jevでは全候補を1つのChoice質問として評価します。",
+    payloadJev: "Jevが全候補を1つのChoice質問として評価し、候補IDを返します。",
+    payloadHaiku: "Haikuが盤面文字列を比較し、候補IDを返します。",
+    pipelineBoard: "盤面",
+    pipelineMoves: "合法手",
+    pipelineCandidates: "最大12候補",
+    footerBoth: "Haiku側はAnthropic API、Jev側はTypeSafe AI APIの実応答です。同じ合法手候補から各モデルが選んだ配置を反映します。",
+    footerJev: "現在はJevの実応答による単独モードです。Haiku側はAnthropic APIキー未設定のため実行しません。",
+    footerHaiku: "現在はAnthropic APIの実応答によるHaiku単独モードです。Jev側はGatewayまたはTypeSafeのAPIキー未設定のため実行しません。",
+    footerNone: "APIキーを設定すると、実モデルが選んだ配置を盤面へ反映します。",
+    jevRequestFailed: "Jev APIの呼び出しに失敗しました。",
+    gatewayConnectFailed: "Vercel AI Gatewayへ接続できませんでした。",
+    jevInvalidResponse: "Jev APIの応答形式を確認できませんでした。",
+    haikuRequestFailed: "Haiku APIの呼び出しに失敗しました。",
+    haikuInvalidResponse: "Haiku APIの応答形式を確認できませんでした。",
+    jevInvalidChoice: "Jevが候補外の手を返しました。",
+    haikuInvalidChoice: "Haikuが候補外の手を返しました。",
+  },
+} as const;
+
+type Copy = { [Key in keyof typeof COPY.en]: string };
+
+function localizedApiError(message: string | undefined, language: Language, fallback: string) {
+  if (!message) return fallback;
+  if (language === "ja" || !/[ぁ-んァ-ン一-龯]/.test(message)) return message;
+  return fallback;
+}
+
 const PIECES = createPieceSequence();
 
 function initialPlayer(): PlayerState {
@@ -85,7 +242,9 @@ async function requestJevDecision(
   nextPieces: PieceName[],
   candidates: Candidate[],
   clearedTotal: number,
+  language: Language,
 ): Promise<JevDecisionResponse> {
+  const copy: Copy = COPY[language];
   const body = JSON.stringify({
     currentPiece,
     nextPieces,
@@ -99,7 +258,7 @@ async function requestJevDecision(
       metrics: candidate.metrics,
     })),
   });
-  let lastError = "Jev APIの呼び出しに失敗しました。";
+  let lastError = copy.jevRequestFailed;
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
     let response: Response;
@@ -113,7 +272,7 @@ async function requestJevDecision(
         body,
       });
     } catch {
-      lastError = "Vercel AI Gatewayへ接続できませんでした。";
+      lastError = copy.gatewayConnectFailed;
       if (attempt < 2) {
         await new Promise((resolve) => window.setTimeout(resolve, 1_000 * (attempt + 1)));
         continue;
@@ -123,7 +282,7 @@ async function requestJevDecision(
 
     const data = await response.json() as Partial<JevDecisionResponse> & { error?: string };
     if (!response.ok) {
-      lastError = data.error || lastError;
+      lastError = localizedApiError(data.error, language, lastError);
       const retryable = [429, 502, 503, 504].includes(response.status);
       if (retryable && attempt < 2) {
         const retryAfter = Number(response.headers.get("Retry-After"));
@@ -146,7 +305,7 @@ async function requestJevDecision(
       typeof data.usage.outputTokens !== "number" ||
       typeof data.costUsd !== "number"
     ) {
-      throw new Error("Jev APIの応答形式を確認できませんでした。");
+      throw new Error(copy.jevInvalidResponse);
     }
     return data as JevDecisionResponse;
   }
@@ -157,7 +316,9 @@ async function requestHaikuDecision(
   currentPiece: PieceName,
   nextPieces: PieceName[],
   candidates: Candidate[],
+  language: Language,
 ): Promise<HaikuDecisionResponse> {
+  const copy: Copy = COPY[language];
   const response = await fetch("/api/tetris-haiku", {
     method: "POST",
     headers: {
@@ -179,7 +340,9 @@ async function requestHaikuDecision(
     }),
   });
   const data = await response.json() as Partial<HaikuDecisionResponse> & { error?: string };
-  if (!response.ok) throw new Error(data.error || "Haiku APIの呼び出しに失敗しました。");
+  if (!response.ok) {
+    throw new Error(localizedApiError(data.error, language, copy.haikuRequestFailed));
+  }
   if (
     !Number.isSafeInteger(data.choice) ||
     typeof data.model !== "string" ||
@@ -189,7 +352,7 @@ async function requestHaikuDecision(
     typeof data.usage.outputTokens !== "number" ||
     typeof data.costUsd !== "number"
   ) {
-    throw new Error("Haiku APIの応答形式を確認できませんでした。");
+    throw new Error(copy.haikuInvalidResponse);
   }
   return data as HaikuDecisionResponse;
 }
@@ -207,21 +370,21 @@ function formatTime(milliseconds: number) {
   return `${(milliseconds / 1000).toFixed(1)} s`;
 }
 
-function statusLabel(status: RunStatus) {
+function statusLabel(status: RunStatus, copy: Copy) {
   return {
-    ready: "ready",
-    running: "running",
-    paused: "paused",
-    finished: "20 lines",
-    failed: "game over",
-    "api-error": "API error",
+    ready: copy.statusReady,
+    running: copy.statusRunning,
+    paused: copy.statusPaused,
+    finished: copy.statusFinished,
+    failed: copy.statusFailed,
+    "api-error": copy.statusApiError,
   }[status];
 }
 
-function PiecePreview({ piece }: { piece: PieceName }) {
+function PiecePreview({ piece, copy }: { piece: PieceName; copy: Copy }) {
   const { shape, value } = pieceCells(piece);
   return (
-    <div className={styles.piecePreview} aria-label={`次のブロック ${piece}`}>
+    <div className={styles.piecePreview} aria-label={`${copy.nextPiece}: ${piece}`}>
       {Array.from({ length: 8 }, (_, index) => {
         const x = index % 4;
         const y = Math.floor(index / 4);
@@ -232,12 +395,12 @@ function PiecePreview({ piece }: { piece: PieceName }) {
   );
 }
 
-function TetrisBoard({ board, label }: { board: Board; label: string }) {
+function TetrisBoard({ board, label, copy }: { board: Board; label: string; copy: Copy }) {
   return (
     <div
       className={styles.tetrisBoard}
       role="img"
-      aria-label={`${label}のテトリス盤面`}
+      aria-label={`${label} ${copy.board}`}
       style={{
         gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
         gridTemplateRows: `repeat(${BOARD_HEIGHT}, 1fr)`,
@@ -257,12 +420,16 @@ function PlayerCard({
   kind,
   state,
   elapsed,
+  language,
+  copy,
   unavailable = false,
 }: {
   title: string;
   kind: PlayerKind;
   state: PlayerState;
   elapsed: number;
+  language: Language;
+  copy: Copy;
   unavailable?: boolean;
 }) {
   const nextPiece = PIECES[state.pieceIndex] ?? "I";
@@ -273,40 +440,40 @@ function PlayerCard({
     <article className={styles.playerCard} data-player={kind}>
       <header className={styles.playerHeader}>
         <div>
-          <p>{kind === "jev" ? "SPECIALIZED MODEL" : "LANGUAGE MODEL"}</p>
+          <p>{kind === "jev" ? copy.specializedModel : copy.languageModel}</p>
           <h2>{title}</h2>
         </div>
         <span data-status={unavailable ? "unavailable" : state.status}>
-          {unavailable ? "API keyなし" : state.thinking ? "asking API" : statusLabel(state.status)}
+          {unavailable ? copy.apiKeyMissing : state.thinking ? copy.askingApi : statusLabel(state.status, copy)}
         </span>
       </header>
 
       <div className={styles.gameArea}>
-        <TetrisBoard board={state.board} label={title} />
+        <TetrisBoard board={state.board} label={title} copy={copy} />
         <div className={styles.metrics}>
           <div>
-            <span>消去ライン</span>
+            <span>{copy.linesCleared}</span>
             <strong>{state.lines} <small>/ {TARGET_LINES}</small></strong>
           </div>
           <div>
-            <span>経過</span>
+            <span>{copy.elapsed}</span>
             <strong>{formatTime(elapsed)}</strong>
           </div>
           <div>
-            <span>1手の決定時間 中央値</span>
+            <span>{copy.medianDecision}</span>
             <strong>{decisionMedian || "—"}<small>{decisionMedian ? " ms" : ""}</small></strong>
           </div>
           <div>
-            <span>API費用 実測</span>
+            <span>{copy.measuredCost}</span>
             <strong>${apiCost.toFixed(4)}</strong>
           </div>
           <div className={styles.candidateMetric}>
-            <span>直前の候補</span>
+            <span>{copy.previousCandidates}</span>
             <strong>
               {state.candidateCount || "—"}
               <small>
                 {state.candidateCount
-                  ? ` choices · ${kind === "jev" && state.confidence !== null
+                  ? ` ${copy.choices} · ${kind === "jev" && state.confidence !== null
                     ? `${Math.round(state.confidence * 100)}% conf`
                     : `${state.inputTokens} in`}`
                   : ""}
@@ -317,16 +484,25 @@ function PlayerCard({
       </div>
 
       <footer className={styles.nextBar}>
-        <span>次のブロック</span>
-        <PiecePreview piece={nextPiece} />
+        <span>{copy.nextPiece}</span>
+        <PiecePreview piece={nextPiece} copy={copy} />
         <b>{nextPiece}</b>
       </footer>
-      {state.error ? <p className={styles.apiError}>{state.error}</p> : null}
+      {state.error ? (
+        <p className={styles.apiError}>
+          {localizedApiError(
+            state.error,
+            language,
+            kind === "jev" ? copy.jevRequestFailed : copy.haikuRequestFailed,
+          )}
+        </p>
+      ) : null}
     </article>
   );
 }
 
 export function TetrisDemo() {
+  const [language, setLanguage] = useState<Language>("en");
   const [jev, setJev] = useState<PlayerState>(() => initialPlayer());
   const [haiku, setHaiku] = useState<PlayerState>(() => initialPlayer());
   const [runStatus, setRunStatus] = useState<RunStatus>("ready");
@@ -341,6 +517,11 @@ export function TetrisDemo() {
   const jevRequestPending = useRef(false);
   const haikuRequestPending = useRef(false);
   const sessionId = useRef(0);
+  const copy: Copy = COPY[language];
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   useEffect(() => {
     playerRefs.current = { jev, haiku };
@@ -353,7 +534,7 @@ export function TetrisDemo() {
         const response = await fetch(url, { cache: "no-store" });
         const data = await response.json() as Partial<ModelConfig>;
         if (!response.ok || typeof data.enabled !== "boolean" || typeof data.model !== "string") {
-          throw new Error("API設定を確認できませんでした。");
+          throw new Error("API configuration could not be verified.");
         }
         return data as ModelConfig;
       } catch {
@@ -464,10 +645,11 @@ export function TetrisDemo() {
         PIECES.slice(current.pieceIndex + 1, current.pieceIndex + 4),
         candidates,
         current.lines,
+        language,
       ).then((decision) => {
         if (requestSession !== sessionId.current) return;
         const selected = candidates.find((candidate) => candidate.id === decision.choice);
-        if (!selected) throw new Error("Jevが候補外の手を返しました。");
+        if (!selected) throw new Error(copy.jevInvalidChoice);
         const latest = playerRefs.current.jev;
         const totalLines = latest.lines + selected.clearedLines;
         const didFinish = totalLines >= TARGET_LINES;
@@ -499,7 +681,7 @@ export function TetrisDemo() {
           ...latest,
           status: "api-error",
           thinking: false,
-          error: error instanceof Error ? error.message : "Jev APIの呼び出しに失敗しました。",
+          error: error instanceof Error ? error.message : copy.jevRequestFailed,
         };
         playerRefs.current.jev = failed;
         setJev(failed);
@@ -545,10 +727,11 @@ export function TetrisDemo() {
         piece,
         PIECES.slice(current.pieceIndex + 1, current.pieceIndex + 4),
         candidates,
+        language,
       ).then((decision) => {
         if (requestSession !== sessionId.current) return;
         const selected = candidates.find((candidate) => candidate.id === decision.choice);
-        if (!selected) throw new Error("Haikuが候補外の手を返しました。");
+        if (!selected) throw new Error(copy.haikuInvalidChoice);
         const latest = playerRefs.current.haiku;
         const totalLines = latest.lines + selected.clearedLines;
         const didFinish = totalLines >= TARGET_LINES;
@@ -578,7 +761,7 @@ export function TetrisDemo() {
           ...latest,
           status: "api-error",
           thinking: false,
-          error: error instanceof Error ? error.message : "Haiku APIの呼び出しに失敗しました。",
+          error: error instanceof Error ? error.message : copy.haikuRequestFailed,
         };
         playerRefs.current.haiku = failed;
         setHaiku(failed);
@@ -609,7 +792,7 @@ export function TetrisDemo() {
     }, 32);
 
     return () => window.clearInterval(timer);
-  }, [haikuConfig?.enabled, jevConfig?.enabled, runStatus, speed]);
+  }, [copy, haikuConfig?.enabled, jevConfig?.enabled, language, runStatus, speed]);
 
   const payload = useMemo(() => {
     const source = haiku.selectedCandidate ? haiku : jev;
@@ -617,7 +800,7 @@ export function TetrisDemo() {
     if (!source.selectedCandidate) {
       return {
         currentPiece,
-        candidates: "ゲームを開始すると、ここに最大12候補が表示されます",
+        candidates: copy.candidatePlaceholder,
       };
     }
     return {
@@ -649,25 +832,25 @@ export function TetrisDemo() {
         },
       },
     };
-  }, [haiku, jev]);
+  }, [copy.candidatePlaceholder, haiku, jev]);
 
   const winner = !jevConfig?.enabled && !haikuConfig?.enabled
-    ? "APIキーを設定してください"
+    ? copy.configureApi
     : jevConfig?.enabled && !haikuConfig?.enabled
-      ? "Jev単独モード"
+      ? copy.jevOnlyMode
       : !jevConfig?.enabled && haikuConfig?.enabled
-        ? "Haiku単独モード"
+        ? copy.haikuOnlyMode
     : jev.status === "api-error"
-      ? "Jev APIエラーで停止"
+      ? copy.jevApiStopped
       : haiku.status === "api-error"
-        ? "Haiku APIエラーで停止"
+        ? copy.haikuApiStopped
     : jev.status === "finished" && haiku.status !== "finished"
-    ? "Jevが先に20ラインへ到達"
+    ? copy.jevWon
     : haiku.status === "finished" && jev.status !== "finished"
-      ? "Haikuが先に20ラインへ到達"
+      ? copy.haikuWon
       : jev.status === "finished" && haiku.status === "finished"
-        ? elapsed.jev <= elapsed.haiku ? "Jevが先に20ラインへ到達" : "Haikuが先に20ラインへ到達"
-        : "同一条件でレース中";
+        ? elapsed.jev <= elapsed.haiku ? copy.jevWon : copy.haikuWon
+        : copy.racing;
 
   return (
     <main className={styles.page}>
@@ -677,42 +860,46 @@ export function TetrisDemo() {
           <div><strong>MODEL RACE</strong><small>TETRIS DECISION BENCH</small></div>
         </div>
         <div className={styles.legend}>
-          <span><i data-color="jev" /> specialized</span>
-          <span><i data-color="haiku" /> language model</span>
+          <span><i data-color="jev" /> {copy.specializedLegend}</span>
+          <span><i data-color="haiku" /> {copy.languageLegend}</span>
           <b>{jevConfig?.enabled && haikuConfig?.enabled
-            ? "LIVE MODEL APIs"
+            ? copy.liveModels
             : jevConfig?.enabled
-              ? "LIVE JEV API"
+              ? copy.liveJev
               : haikuConfig?.enabled
-                ? "LIVE HAIKU API"
-                : "ADD YOUR API KEY"}</b>
+                ? copy.liveHaiku
+                : copy.addApiKey}</b>
+          <div className={styles.languageSwitch} role="group" aria-label={copy.languageLabel}>
+            <button type="button" aria-pressed={language === "en"} onClick={() => setLanguage("en")}>EN</button>
+            <button type="button" aria-pressed={language === "ja"} onClick={() => setLanguage("ja")}>日本語</button>
+          </div>
         </div>
       </header>
 
       <section className={styles.hero}>
         <div>
-          <p className={styles.eyebrow}>SAME BOARD. SAME BLOCKS. DIFFERENT DECISIONS.</p>
+          <p className={styles.eyebrow}>{copy.eyebrow}</p>
           <h1>AI Tetris<br /><span>Decision Race</span></h1>
         </div>
         <div className={styles.raceSummary}>
-          <span>RACE STATUS</span>
+          <span>{copy.raceStatus}</span>
           <strong>{winner}</strong>
           <p>
             {jevConfig?.enabled && haikuConfig?.enabled
-              ? "候補生成と盤面更新は同一。違うのは、どの候補を選ぶかだけ。"
+              ? copy.summaryBoth
               : jevConfig?.enabled
-                ? "現在はJevのみ実行します。Anthropic APIキー設定後は同じ条件で比較できます。"
+                ? copy.summaryJev
                 : haikuConfig?.enabled
-                  ? "現在はHaikuのみ実行します。Vercel AI GatewayまたはTypeSafeのAPIキー設定後は同じ条件で比較できます。"
-                  : "READMEの手順で自分のAPIキーを設定すると、実モデルによる検証を開始できます。"}
+                  ? copy.summaryHaiku
+                  : copy.summaryNone}
           </p>
         </div>
       </section>
 
-      <section className={styles.controls} aria-label="デモ操作">
+      <section className={styles.controls} aria-label={copy.controlsLabel}>
         <div className={styles.controlButtons}>
           {runStatus === "running" ? (
-            <button type="button" className={styles.primaryButton} onClick={pause}>一時停止</button>
+            <button type="button" className={styles.primaryButton} onClick={pause}>{copy.pause}</button>
           ) : (
             <button
               type="button"
@@ -720,13 +907,13 @@ export function TetrisDemo() {
               onClick={start}
               disabled={jevConfig === null || haikuConfig === null || (!jevConfig.enabled && !haikuConfig.enabled)}
             >
-              {runStatus === "paused" ? "再開" : "レースを開始"}
+              {runStatus === "paused" ? copy.resume : copy.start}
             </button>
           )}
-          <button type="button" className={styles.secondaryButton} onClick={reset}>リセット</button>
+          <button type="button" className={styles.secondaryButton} onClick={reset}>{copy.reset}</button>
         </div>
         <div className={styles.speedControl}>
-          <span>再生速度</span>
+          <span>{copy.playbackSpeed}</span>
           {[1, 2.5, 5].map((option) => (
             <button
               key={option}
@@ -740,14 +927,14 @@ export function TetrisDemo() {
         </div>
         <p className={!jevConfig?.enabled ? styles.configError : undefined}>
           {jevConfig === null || haikuConfig === null
-            ? "API設定を確認中です…"
+            ? copy.checkingConfig
             : jevConfig.enabled && haikuConfig.enabled
-              ? "開始すると毎手JevとClaude Haiku 4.5の実APIを呼び出します。API料金が発生します。"
+              ? copy.configBoth
               : jevConfig.enabled
-                ? "Jevの実APIを単独で呼び出します。比較にはANTHROPIC_API_KEYも設定してください。"
+                ? copy.configJev
                 : haikuConfig.enabled
-                  ? "Haikuの実APIを単独で呼び出します。比較にはJev用APIキーも設定してください。"
-                  : "APIキーが未設定です。.env.localを作成してサーバーを再起動してください。"}
+                  ? copy.configHaiku
+                  : copy.configNone}
         </p>
       </section>
 
@@ -757,6 +944,8 @@ export function TetrisDemo() {
           kind="jev"
           state={jev}
           elapsed={elapsed.jev}
+          language={language}
+          copy={copy}
           unavailable={jevConfig?.enabled === false}
         />
         <PlayerCard
@@ -764,6 +953,8 @@ export function TetrisDemo() {
           kind="haiku"
           state={haiku}
           elapsed={elapsed.haiku}
+          language={language}
+          copy={copy}
           unavailable={haikuConfig?.enabled === false}
         />
       </section>
@@ -771,17 +962,17 @@ export function TetrisDemo() {
       <section className={styles.dataPanel}>
         <div className={styles.dataCopy}>
           <p>MODEL INPUT / OUTPUT</p>
-          <h2>APIへ渡す候補配列</h2>
+          <h2>{copy.payloadTitle}</h2>
           <p>
-            ゲーム側が合法手を列挙し、配置・ライン消去後の盤面を最大12個に絞ります。
+            {copy.payloadIntro}
             {jevConfig?.enabled && haikuConfig?.enabled
-              ? "両モデルは盤面文字列を比較し、候補IDを返します。Jevでは全候補を1つのChoice質問として評価します。"
+              ? copy.payloadBoth
               : jevConfig?.enabled
-                ? "Jevが全候補を1つのChoice質問として評価し、候補IDを返します。"
-                : "Haikuが盤面文字列を比較し、候補IDを返します。"}
+                ? copy.payloadJev
+                : copy.payloadHaiku}
           </p>
           <div className={styles.pipeline}>
-            <span>盤面</span><i>→</i><span>合法手</span><i>→</i><span>最大12候補</span><i>→</i><b>choice ID</b>
+            <span>{copy.pipelineBoard}</span><i>→</i><span>{copy.pipelineMoves}</span><i>→</i><span>{copy.pipelineCandidates}</span><i>→</i><b>choice ID</b>
           </div>
         </div>
         <pre aria-live="polite"><code>{JSON.stringify(payload, null, 2)}</code></pre>
@@ -791,12 +982,12 @@ export function TetrisDemo() {
         <strong>DEMO NOTE</strong>
         <p>
           {jevConfig?.enabled && haikuConfig?.enabled
-            ? "Haiku側はAnthropic API、Jev側はTypeSafe AI APIの実応答です。同じ合法手候補から各モデルが選んだ配置を反映します。"
+            ? copy.footerBoth
             : jevConfig?.enabled
-              ? "現在はJevの実応答による単独モードです。Haiku側はAnthropic APIキー未設定のため実行しません。"
+              ? copy.footerJev
               : haikuConfig?.enabled
-                ? "現在はAnthropic APIの実応答によるHaiku単独モードです。Jev側はGatewayまたはTypeSafeのAPIキー未設定のため実行しません。"
-                : "APIキーを設定すると、実モデルが選んだ配置を盤面へ反映します。"}
+                ? copy.footerHaiku
+                : copy.footerNone}
         </p>
       </footer>
     </main>

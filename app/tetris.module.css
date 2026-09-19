@@ -45,6 +45,9 @@
 .legend i[data-color="jev"] { background: var(--jev); }
 .legend i[data-color="haiku"] { background: var(--haiku); }
 .legend b { padding: 6px 9px; color: #59616b; background: #eef0f2; border-radius: 999px; font-size: 8px; letter-spacing: .08em; }
+.languageSwitch { display: inline-flex; padding: 2px; background: #eef0f2; border: 1px solid #dde1e5; border-radius: 7px; }
+.languageSwitch button { min-width: 34px; height: 25px; padding: 0 7px; color: #737b84; background: transparent; border: 0; border-radius: 5px; cursor: pointer; font-size: 8px; font-weight: 900; }
+.languageSwitch button[aria-pressed="true"] { color: #161b21; background: #fff; box-shadow: 0 1px 4px rgb(20 24 29 / .12); }
 
 .hero {
   display: flex;
@@ -176,6 +179,8 @@
 @media (max-width: 560px) {
   .topbar { height: auto; padding-block: 14px; }
   .legend span { display: none; }
+  .legend { gap: 8px; }
+  .legend b { display: none; }
   .hero h1 { font-size: 52px; }
   .controls { gap: 13px; }
   .speedControl { width: 100%; padding: 10px 0 0; border-top: 1px solid #d8dde1; border-left: 0; }

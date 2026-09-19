@@ -9,6 +9,7 @@ The game itself is deterministic code. The models only decide which placement to
 - Using a Jev `Choice` question for decision-making over application state
 - Connecting to Jev through either Vercel AI Gateway or the TypeSafe API directly
 - Comparing Jev and Claude Haiku 4.5 under identical game conditions
+- An English-first interface with an in-page Japanese language switch
 - Tracking progress to 20 cleared lines, game overs, decision latency, input tokens, and estimated API cost
 - Inspecting the candidate probabilities and confidence returned by Jev
 
