@@ -1,0 +1,33 @@
+{
+  "name": "jev-tetris-benchmark",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A reproducible Tetris decision benchmark comparing TypeSafe Jev with Claude Haiku.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@ai-sdk/gateway": "^4.0.87",
+    "ai": "^7.0.107",
+    "next": "^16.3.4",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.2.6",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
